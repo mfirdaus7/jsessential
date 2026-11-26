@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript Asynchronous: JSON, Callback, XHR, Promise, Fetch, Axios</title>
+<style>
+  :root {
+    --bg: #eef2f6; --card: #ffffff; --ink: #14202b; --muted: #5a6978;
+    --line: #cfd8e1; --accent: #0b6e69; --accent-ink: #ffffff;
+    --code-bg: #14202b; --code-ink: #d7e3ee; --out-bg: #e4f1ef;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.6 "Segoe UI", system-ui, sans-serif; }
+  header { padding: 40px 20px 20px; max-width: 860px; margin: 0 auto; }
+  h1 { margin: 0 0 8px; font-size: 2rem; line-height: 1.2; }
+  header p { margin: 0; color: var(--muted); max-width: 60ch; }
+  nav { max-width: 860px; margin: 0 auto; padding: 0 20px 10px; display: flex; flex-wrap: wrap; gap: 8px; }
+  nav a { color: var(--accent); text-decoration: none; border: 1px solid var(--line);
+    background: var(--card); padding: 4px 12px; border-radius: 99px; font-size: .9rem; }
+  nav a:hover, nav a:focus-visible { border-color: var(--accent); outline: none; }
+  main { max-width: 860px; margin: 0 auto; padding: 0 20px 60px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 22px; margin-top: 18px; }
+  h2 { margin: 0 0 6px; font-size: 1.25rem; }
+  section > p { margin: 0 0 12px; color: var(--muted); max-width: 70ch; }
+  pre { margin: 0; overflow-x: auto; font: 13.5px/1.55 Consolas, "Courier New", monospace; }
+  pre.code { background: var(--code-bg); color: var(--code-ink); padding: 14px 16px; border-radius: 8px; }
+  pre.out { background: var(--out-bg); border: 1px solid #b9d9d5; padding: 12px 14px;
+    border-radius: 8px; min-height: 48px; white-space: pre-wrap; word-break: break-word; margin-top: 10px; }
+  .bar { display: flex; gap: 10px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+  button { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px;
+    padding: 8px 16px; font: inherit; font-weight: 600; cursor: pointer; }
+  button:hover { filter: brightness(1.12); }
+  button:focus-visible { outline: 3px solid #7fd0c9; outline-offset: 2px; }
+  button:disabled { opacity: .55; cursor: wait; }
+  .tag { font-size: .85rem; color: var(--muted); }
+  #userList { margin-top: 10px; }
+  #userList ul { margin: 6px 0 0; padding-left: 20px; }
+  @media (max-width: 520px) { h1 { font-size: 1.55rem; } section { padding: 16px; } }
+  @media (prefers-reduced-motion: no-preference) { button { transition: filter .15s; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>JavaScript Asynchronous</h1>
+  <p>Satu fail HTML untuk semua nota: JSON, callback, XMLHttpRequest, Promise, Fetch API dan Axios. Tekan butang Jalankan pada setiap bahagian dan lihat hasilnya.</p>
+</header>
+
+<nav aria-label="Bahagian">
+  <a href="#json">JSON</a><a href="#callback">Callback</a><a href="#xhr">XMLHttpRequest</a>
+  <a href="#promise">Promise</a><a href="#fetch">Fetch</a><a href="#axios">Axios</a>
+</nav>
+
+<main>
+
+<section id="json">
+  <h2>JSON</h2>
+  <p>Format teks untuk menyusun data. Mudah dibaca manusia dan mesin. <code>JSON.stringify</code> menukar objek kepada teks, <code>JSON.parse</code> menukar teks kembali kepada objek.</p>
+  <pre class="code" data-src="demoJSON"></pre>
+  <div class="bar"><button data-run="demoJSON">Jalankan</button></div>
+  <pre class="out" id="out-demoJSON" aria-live="polite"></pre>
+</section>
+
+<section id="callback">
+  <h2>Callback</h2>
+  <p>Fungsi yang dihantar sebagai argumen kepada fungsi lain, dan dijalankan kemudian. Perhatikan susunan output: <code>setTimeout</code> tidak menghalang kod di bawahnya.</p>
+  <pre class="code" data-src="demoCallback"></pre>
+  <div class="bar"><button data-run="demoCallback">Jalankan</button></div>
+  <pre class="out" id="out-demoCallback" aria-live="polite"></pre>
+</section>
+
+<section id="xhr">
+  <h2>XMLHttpRequest</h2>
+  <p>Cara lama untuk memuatkan data tanpa refresh halaman. Langkahnya: <code>new XMLHttpRequest()</code>, <code>open()</code>, tetapkan <code>onload</code> dan <code>onerror</code>, kemudian <code>send()</code>.</p>
+  <pre class="code" data-src="demoXHR"></pre>
+  <div class="bar"><button data-run="demoXHR">Load Users</button><span class="tag">Data dari jsonplaceholder.typicode.com</span></div>
+  <div id="userList"></div>
+  <pre class="out" id="out-demoXHR" aria-live="polite"></pre>
+</section>
+
+<section id="promise">
+  <h2>Promise: .then dan .catch</h2>
+  <p>Objek yang mewakili hasil operasi async: berjaya (<code>resolve</code>) atau gagal (<code>reject</code>). Tukar kotak di bawah untuk melihat kedua-dua laluan.</p>
+  <pre class="code" data-src="demoPromise"></pre>
+  <div class="bar">
+    <label><input type="checkbox" id="promiseSuccess" checked> Operasi berjaya</label>
+    <button data-run="demoPromise">Jalankan</button>
+  </div>
+  <pre class="out" id="out-demoPromise" aria-live="polite"></pre>
+</section>
+
+<section id="fetch">
+  <h2>Fetch API</h2>
+  <p>Cara moden berasaskan Promise. Pilih kaedah HTTP: GET untuk ambil, POST untuk cipta, PUT untuk ganti, PATCH untuk ubah sebahagian, DELETE untuk buang.</p>
+  <pre class="code" data-src="demoFetch"></pre>
+  <div class="bar">
+    <label for="fetchMethod">Kaedah</label>
+    <select id="fetchMethod">
+      <option>GET</option><option>POST</option><option>PUT</option><option>PATCH</option><option>DELETE</option>
+    </select>
+    <button data-run="demoFetch">Jalankan</button>
+  </div>
+  <pre class="out" id="out-demoFetch" aria-live="polite"></pre>
+</section>
+
+<section id="axios">
+  <h2>Axios</h2>
+  <p>Pustaka pihak ketiga untuk permintaan HTTP. Ia menukar JSON secara automatik (guna <code>response.data</code>) dan menganggap status 4xx/5xx sebagai ralat. Pasang dengan <code>npm install axios</code>, atau seperti di sini melalui tag script CDN.</p>
+  <pre class="code" data-src="demoAxios"></pre>
+  <div class="bar">
+    <label for="axiosMethod">Kaedah</label>
+    <select id="axiosMethod">
+      <option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option>
+    </select>
+    <button data-run="demoAxios">Jalankan</button>
+  </div>
+  <pre class="out" id="out-demoAxios" aria-live="polite"></pre>
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js"></script>
+<script>
+  var API = "https://jsonplaceholder.typicode.com";
+
+  /* Tulis hasil ke kotak output */
+  function show(id, text) { document.getElementById("out-" + id).textContent = text; }
+  function append(id, text) { var el = document.getElementById("out-" + id); el.textContent += (el.textContent ? "\n" : "") + text; }
+
+  /* Semak status respons Fetch */
+  function handleResponse(response) {
+    if (!response.ok) { throw new Error("HTTP " + response.status); }
+    return response.json();
+  }
+
+  /* ---------- 1. JSON ---------- */
+  function demoJSON() {
+    var person = { name: "John Doe", age: 30, city: "New York", email: "johndoe@email.com", hobbies: ["Reading", "Hiking", "Cooking"] };
+    var text = JSON.stringify(person);          // objek -> teks
+    var obj = JSON.parse(text);                 // teks -> objek
+    show("demoJSON", "Teks JSON:\n" + text + "\n\nHobi pertama: " + obj.hobbies[0]);
+  }
+
+  /* ---------- 2. Callback ---------- */
+  function demoCallback() {
+    function greet(name, callback) {
+      append("demoCallback", "Hello, " + name + "!");
+      callback();                                // jalankan callback
+    }
+    function sayGoodbye() { append("demoCallback", "How are you!"); }
+
+    show("demoCallback", "");
+    greet("John Doe", sayGoodbye);
+    setTimeout(function () { append("demoCallback", "Callback ini jalan selepas 1 saat"); }, 1000);
+    append("demoCallback", "Baris ini keluar dahulu, tanpa menunggu timer");
+  }
+
+  /* ---------- 3. XMLHttpRequest ---------- */
+  function demoXHR() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", API + "/users", true);
+
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 400) {
+        var users = JSON.parse(xhr.responseText);
+        displayUsers(users);
+        show("demoXHR", "Berjaya: " + users.length + " pengguna dimuatkan.");
+      } else {
+        show("demoXHR", "Error fetching data (status " + xhr.status + ")");
+      }
+    };
+    xhr.onerror = function () { show("demoXHR", "Network error"); };
+
+    show("demoXHR", "Menghantar permintaan...");
+    xhr.send();
+  }
+
+  function displayUsers(users) {
+    var box = document.getElementById("userList");
+    box.innerHTML = "<h3>User List</h3>";
+    var ul = document.createElement("ul");
+    users.forEach(function (user) {
+      var li = document.createElement("li");
+      li.textContent = user.name;
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+  }
+
+  /* ---------- 4. Promise ---------- */
+  function demoPromise() {
+    var success = document.getElementById("promiseSuccess").checked;
+
+    var myPromise = new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        if (success) { resolve("Data successfully fetched"); }
+        else { reject("Error: Failed to fetch data"); }
+      }, 1000);
+    });
+
+    show("demoPromise", "Menunggu 1 saat...");
+    myPromise
+      .then(function (result) { show("demoPromise", "then: " + result); })
+      .catch(function (error) { show("demoPromise", "catch: " + error); });
+  }
+
+  /* ---------- 5. Fetch API ---------- */
+  function demoFetch() {
+    var method = document.getElementById("fetchMethod").value;
+    var options = { method: method };
+    var url = API + "/posts";
+
+    if (method === "POST") {
+      options.headers = { "Content-Type": "application/json" };
+      options.body = JSON.stringify({ title: "New Post", body: "This is a new post.", userId: 1 });
+    } else if (method === "PUT") {
+      url += "/1";
+      options.headers = { "Content-Type": "application/json" };
+      options.body = JSON.stringify({ id: 1, title: "Updated Post", body: "This post has been updated.", userId: 1 });
+    } else if (method === "PATCH") {
+      url += "/1";
+      options.headers = { "Content-Type": "application/json" };
+      options.body = JSON.stringify({ title: "Updated Title" });
+    } else if (method === "DELETE") {
+      url += "/1";
+    } else {
+      url += "?_limit=3";                        // GET: ambil 3 siaran sahaja
+    }
+
+    show("demoFetch", method + " " + url + " ...");
+    fetch(url, options)
+      .then(handleResponse)
+      .then(function (data) { show("demoFetch", method + " Request Result:\n" + JSON.stringify(data, null, 2)); })
+      .catch(function (error) { show("demoFetch", "Error: " + error.message); });
+  }
+
+  /* ---------- 6. Axios ---------- */
+  function demoAxios() {
+    var method = document.getElementById("axiosMethod").value;
+    var config = { method: method, url: API + "/posts" };
+
+    if (method === "GET") { config.url += "?_limit=3"; }
+    if (method === "POST") { config.data = { title: "New Post", body: "Hello Axios", userId: 1 }; }
+    if (method === "PUT") { config.url += "/1"; config.data = { id: 1, title: "Updated Post", body: "Updated", userId: 1 }; }
+    if (method === "DELETE") { config.url += "/1"; }
+
+    if (typeof axios === "undefined") {
+      show("demoAxios", "Axios tidak dimuatkan. Semak sambungan internet anda.");
+      return;
+    }
+
+    show("demoAxios", method + " " + config.url + " ...");
+    axios(config)
+      .then(function (response) {
+        show("demoAxios", "Status " + response.status + "\n" + JSON.stringify(response.data, null, 2));
+      })
+      .catch(function (error) { show("demoAxios", "Error: " + error.message); });
+  }
+
+  /* ---------- Paparkan kod sumber & sambung butang ---------- */
+  document.querySelectorAll("pre.code").forEach(function (pre) {
+    pre.textContent = window[pre.dataset.src].toString();
+  });
+  document.querySelectorAll("button[data-run]").forEach(function (btn) {
+    btn.addEventListener("click", function () { window[btn.dataset.run](); });
+  });
+</script>
+</body>
+</html>

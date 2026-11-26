@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("jsEssential")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e3b8c122deb99b59e2d7c6e2fc2c9cfbfbaa6e50")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d529589721be8d9ffc25c0f81b7e664561cce68")]
 [assembly: System.Reflection.AssemblyProductAttribute("jsEssential")]
 [assembly: System.Reflection.AssemblyTitleAttribute("jsEssential")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

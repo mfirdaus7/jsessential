@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Learning Lab</title>
+  <style>
+    /* =========================================================
+       CSS: Gaya paparan sahaja. Logik aplikasi berada dalam JS.
+       ========================================================= */
+    :root {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #1f2937;
+      background: #f3f6fb;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 24px; }
+    main { max-width: 1050px; margin: 0 auto; }
+    header, section {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.04);
+    }
+    h1 { margin-top: 0; color: #172554; }
+    h2 { margin-top: 0; color: #1d4ed8; font-size: 1.25rem; }
+    p { line-height: 1.6; }
+    .hint { color: #4b5563; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+    .demo { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; }
+    button {
+      border: 0; border-radius: 8px; padding: 10px 14px; margin: 5px 5px 5px 0;
+      color: white; background: #2563eb; cursor: pointer; font-weight: 600;
+    }
+    button:hover { background: #1d4ed8; }
+    button.secondary { background: #475569; }
+    button:disabled { background: #9ca3af; cursor: not-allowed; }
+    input {
+      padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px;
+      max-width: 100%; margin: 4px 0;
+    }
+    pre {
+      background: #0f172a; color: #d1fae5; padding: 14px; border-radius: 9px;
+      overflow-x: auto; white-space: pre-wrap; overflow-wrap: anywhere;
+      min-height: 50px;
+    }
+    .seating-chart {
+      display: grid; grid-template-columns: repeat(3, minmax(65px, 90px));
+      gap: 10px; justify-content: start; margin: 15px 0;
+    }
+    .seat {
+      min-height: 48px; border-radius: 8px; border: 1px solid #94a3b8;
+      background: #86efac; color: #14532d; font-weight: 700;
+    }
+    .seat.booked { background: #ef4444; color: white; cursor: not-allowed; }
+    .seat.available { background: #86efac; color: #14532d; }
+    .small { font-size: .9rem; }
+    footer { color: #64748b; text-align: center; padding: 12px; }
+    code { background: #e2e8f0; padding: 2px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>JavaScript Learning Lab</h1>
+    <p>Fail latihan satu halaman berdasarkan nota JavaScript: <strong>Arrays, Objects, Strings, Math, Date, Timer</strong> dan contoh sistem tempahan tempat duduk.</p>
+    <p class="hint">Cara guna: simpan fail ini sebagai <code>javascript-learning-lab.html</code>, kemudian klik dua kali untuk buka menggunakan Chrome atau Edge. Buka Developer Tools (F12) → Console untuk melihat output contoh JavaScript.</p>
+  </header>
+
+  <section>
+    <h2>1. Arrays (senarai data)</h2>
+    <p>Array menyimpan beberapa nilai dalam satu pemboleh ubah. Susunannya dikekalkan dan index bermula daripada <strong>0</strong>.</p>
+    <div class="demo">
+      <p id="arrayOutput">Tekan butang untuk jalankan contoh array.</p>
+      <button onclick="runArrayExamples()">Jalankan contoh Array</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>2. Array iteration dan kaedah penting</h2>
+    <p><code>for</code> dan <code>forEach</code> membaca item; <code>map</code> menghasilkan array baharu; <code>filter</code> memilih item; <code>reduce</code> menggabungkan nilai; <code>find</code> mencari item pertama yang sepadan.</p>
+    <div class="demo">
+      <button onclick="runIterationExamples()">Jalankan contoh iteration</button>
+      <pre id="iterationOutput">Output akan dipaparkan di sini.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. 2D Array dan sistem tempahan kerusi</h2>
+    <p>2D array ialah array yang mengandungi array lain. Dalam contoh ini, <code>O</code> bermaksud kosong dan <code>X</code> bermaksud sudah ditempah.</p>
+    <p class="small"><strong>Hijau:</strong> tersedia · <strong>Merah:</strong> sudah ditempah</p>
+    <div id="seatingChart" class="seating-chart" aria-label="Carta tempat duduk"></div>
+    <button onclick="bookRandomSeat()">Pilih kerusi rawak</button>
+    <button class="secondary" onclick="resetSeats()">Reset kerusi</button>
+    <p id="bookingMessage" aria-live="polite">Pilih mana-mana kerusi hijau untuk menempah.</p>
+    <pre id="seatArrayOutput"></pre>
+  </section>
+
+  <section>
+    <h2>4. Objects, Classes dan Constructor</h2>
+    <p>Object menyimpan data dalam bentuk pasangan <em>key:value</em>. Class pula ialah template untuk menghasilkan object. Constructor menetapkan nilai awal object.</p>
+    <div class="demo">
+      <button onclick="runObjectExamples()">Jalankan contoh Object</button>
+      <pre id="objectOutput">Output akan dipaparkan di sini.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>5. Array of Objects (data pekerja)</h2>
+    <p>Ini corak yang biasa digunakan dalam aplikasi sebenar, contohnya senarai pekerja dalam sistem Employee Management.</p>
+    <div class="demo">
+      <button onclick="runEmployeeExamples()">Jalankan contoh pekerja</button>
+      <pre id="employeeOutput">Output akan dipaparkan di sini.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>6. Strings (manipulasi teks)</h2>
+    <p>String ialah data berbentuk teks. Contoh di bawah menunjukkan gabungan teks, panjang teks, carian, pemotongan, penggantian, split dan trim.</p>
+    <div class="demo">
+      <button onclick="runStringExamples()">Jalankan contoh String</button>
+      <pre id="stringOutput">Output akan dipaparkan di sini.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>7. Math methods</h2>
+    <p>Objek <code>Math</code> menyediakan fungsi matematik seperti pembundaran, kuasa, punca kuasa dua dan nombor rawak.</p>
+    <div class="demo">
+      <button onclick="runMathExamples()">Jalankan contoh Math</button>
+      <pre id="mathOutput">Output akan dipaparkan di sini.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>8. Date dan masa</h2>
+    <p><code>Date</code> digunakan untuk mendapatkan tarikh/masa semasa atau mengira tarikh akan datang.</p>
+    <div class="demo">
+      <button onclick="runDateExamples()">Jalankan contoh Date</button>
+      <pre id="dateOutput">Output akan dipaparkan di sini.</pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>9. setTimeout dan setInterval</h2>
+    <p><code>setTimeout</code> menjalankan sesuatu sekali selepas tempoh tertentu. <code>setInterval</code> mengulang tindakan mengikut sela masa sehingga dihentikan.</p>
+    <div class="demo">
+      <button onclick="startTimeoutDemo()">Mula setTimeout (2 saat)</button>
+      <button onclick="startIntervalDemo()">Mula setInterval</button>
+      <button class="secondary" onclick="stopIntervalDemo()">Hentikan interval</button>
+      <p id="timerOutput" aria-live="polite">Timer belum dimulakan.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>10. Random Quote Generator</h2>
+    <p>Contoh mini menggunakan array, <code>Math.random()</code>, <code>Math.floor()</code> dan manipulasi DOM.</p>
+    <div class="demo">
+      <p id="quoteDisplay">Tekan butang untuk dapatkan kata-kata rawak.</p>
+      <button onclick="generateRandomQuote()">Dapatkan quote</button>
+    </div>
+  </section>
+
+  <footer>JavaScript Learning Lab · Semua contoh berjalan dalam browser tanpa install library tambahan.</footer>
+</main>
+
+<script>
+"use strict";
+
+/* ============================================================
+   BAHAGIAN 1 — ARRAYS
+   Array ialah senarai tersusun. Index pertama ialah 0.
+   const menghalang variable fruits daripada ditukar kepada
+   array lain, tetapi kandungan array masih boleh diubah.
+   ============================================================ */
+function runArrayExamples() {
+  const fruits = ["apple", "banana", "cherry"];
+
+  // Mengakses item menggunakan index dan menyemak bilangan item.
+  const firstFruit = fruits[0];
+  const secondFruit = fruits[1];
+  const numberOfFruits = fruits.length;
+
+  // Array bersifat mutable: item boleh ditukar selepas dicipta.
+  fruits[2] = "strawberry";
+  fruits.push("kiwi");          // Tambah di hujung.
+  const removedLast = fruits.pop(); // Buang item terakhir.
+
+  // shift buang item pertama; unshift tambah item di hadapan.
+  const removedFirst = fruits.shift();
+  fruits.unshift("mango");
+
+  // splice(start, deleteCount, item...) ubah array asal.
+  fruits.splice(1, 1, "grape");
+
+  // concat dan slice menghasilkan array baharu.
+  const extraFruits = ["orange", "pear"];
+  const combined = fruits.concat(extraFruits);
+  const sliced = combined.slice(1, 3); // Index 1 hingga sebelum 3.
+
+  // indexOf pulangkan index pertama, atau -1 jika tiada.
+  const bananaIndex = combined.indexOf("banana");
+
+  // reverse dan sort mengubah array asal.
+  const reverseCopy = [...combined].reverse();
+  const numbersAsStrings = [4, 2, 8, 6, 1, 10];
+  const defaultSorted = [...numbersAsStrings].sort(); // Susunan teks.
+  const numericSorted = [...numbersAsStrings].sort((a, b) => a - b);
+
+  const output = [
+    `Item pertama asal: ${firstFruit}`,
+    `Item kedua asal: ${secondFruit}`,
+    `Bilangan item asal: ${numberOfFruits}`,
+    `Buang item terakhir: ${removedLast}`,
+    `Buang item pertama: ${removedFirst}`,
+    `Array selepas beberapa perubahan: ${JSON.stringify(fruits)}`,
+    `concat: ${JSON.stringify(combined)}`,
+    `slice(1, 3): ${JSON.stringify(sliced)}`,
+    `indexOf("banana"): ${bananaIndex}`,
+    `reverse: ${JSON.stringify(reverseCopy)}`,
+    `sort default (sebagai teks): ${JSON.stringify(defaultSorted)}`,
+    `sort nombor: ${JSON.stringify(numericSorted)}`
+  ].join("\n");
+
+  document.getElementById("arrayOutput").textContent = output;
+  console.log("ARRAY EXAMPLES\n" + output);
+}
+
+/* ============================================================
+   BAHAGIAN 2 — ITERATION / FOREACH / MAP / FILTER / REDUCE / FIND
+   ============================================================ */
+function runIterationExamples() {
+  const fruits = ["apple", "banana", "cherry", "date"];
+  const lines = [];
+
+  // for loop: kawalan index secara manual.
+  for (let i = 0; i < fruits.length; i++) {
+    lines.push(`for: ${i} -> ${fruits[i]}`);
+  }
+
+  // forEach: buat tindakan untuk setiap item; tidak membina array.
+  const users = [
+    { name: "Alice", email: "alice@example.com" },
+    { name: "Bob", email: "bob@example.com" },
+    { name: "Charlie", email: "charlie@example.com" }
+  ];
+  users.forEach(user => lines.push(`forEach: Welcome email kepada ${user.email}`));
+
+  const products = [
+    { name: "Laptop", price: 1000 },
+    { name: "Smartphone", price: 500 },
+    { name: "Tablet", price: 300 },
+    { name: "Monitor", price: 250 },
+    { name: "Keyboard", price: 50 }
+  ];
+
+  // map: tukar setiap product kepada teks nama produk.
+  const productNames = products.map(product => product.name);
+
+  // filter: pilih produk dalam julat harga RM100 hingga RM500.
+  const affordableProducts = products.filter(
+    product => product.price >= 100 && product.price <= 500
+  );
+
+  // reduce: kumpulkan semua harga menjadi satu jumlah.
+  const totalPrice = products.reduce((total, product) => total + product.price, 0);
+
+  // find: pulangkan object pertama yang memenuhi syarat.
+  const monitor = products.find(product => product.name === "Monitor");
+
+  lines.push(`map (nama produk): ${JSON.stringify(productNames)}`);
+  lines.push(`filter (RM100-RM500): ${JSON.stringify(affordableProducts)}`);
+  lines.push(`reduce (jumlah harga semua produk): RM${totalPrice}`);
+  lines.push(`find (Monitor): ${JSON.stringify(monitor)}`);
+
+  const output = lines.join("\n");
+  document.getElementById("iterationOutput").textContent = output;
+  console.log("ITERATION EXAMPLES\n" + output);
+}
+
+/* ============================================================
+   BAHAGIAN 3 — 2D ARRAY / BOOKING SEATS
+   X = ditempah, O = masih kosong.
+   Contoh ini menggunakan 3 baris x 3 kerusi.
+   ============================================================ */
+const initialSeats = [
+  ["X", "O", "X"],
+  ["O", "X", "O"],
+  ["X", "O", "X"]
+];
+
+// Salin setiap baris supaya reset boleh pulihkan keadaan asal.
+let theaterSeats = initialSeats.map(row => [...row]);
+
+function seatLabel(row, col) {
+  // 65 ialah kod huruf A. Baris 0=A, 1=B, 2=C.
+  return `${String.fromCharCode(65 + row)}${col + 1}`;
+}
+
+function renderSeats() {
+  const chart = document.getElementById("seatingChart");
+  chart.innerHTML = "";
+
+  theaterSeats.forEach((row, rowIndex) => {
+    row.forEach((status, colIndex) => {
+      const button = document.createElement("button");
+      button.className = `seat ${status === "X" ? "booked" : "available"}`;
+      button.textContent = seatLabel(rowIndex, colIndex);
+      button.disabled = status === "X";
+      button.title = status === "X" ? "Sudah ditempah" : "Klik untuk tempah";
+      button.addEventListener("click", () => bookSeat(rowIndex, colIndex));
+      chart.appendChild(button);
+    });
+  });
+
+  document.getElementById("seatArrayOutput").textContent =
+    "Keadaan 2D array:\n" + JSON.stringify(theaterSeats);
+}
+
+function bookSeat(row, col) {
+  // Semak status dahulu supaya kerusi yang sudah ditempah tidak ditempah lagi.
+  if (theaterSeats[row][col] === "O") {
+    theaterSeats[row][col] = "X";
+    document.getElementById("bookingMessage").textContent =
+      `Berjaya! Kerusi ${seatLabel(row, col)} telah ditempah.`;
+  } else {
+    document.getElementById("bookingMessage").textContent =
+      `Kerusi ${seatLabel(row, col)} sudah ditempah.`;
+  }
+  renderSeats();
+}
+
+function bookRandomSeat() {
+  const availableSeats = [];
+
+  // Nested loop: loop luar untuk baris, loop dalam untuk lajur.
+  for (let row = 0; row < theaterSeats.length; row++) {
+    for (let col = 0; col < theaterSeats[row].length; col++) {
+      if (theaterSeats[row][col] === "O") {
+        availableSeats.push({ row, col });
+      }
+    }
+  }
+
+  if (availableSeats.length === 0) {
+    document.getElementById("bookingMessage").textContent =
+      "Semua kerusi sudah ditempah.";
+    return;
+  }
+
+  // Math.random menghasilkan nombor 0 hingga kurang daripada 1.
+  // Math.floor menukarkannya kepada index integer yang sah.
+  const randomIndex = Math.floor(Math.random() * availableSeats.length);
+  const selectedSeat = availableSeats[randomIndex];
+  bookSeat(selectedSeat.row, selectedSeat.col);
+}
+
+function resetSeats() {
+  theaterSeats = initialSeats.map(row => [...row]);
+  document.getElementById("bookingMessage").textContent =
+    "Kerusi telah direset kepada keadaan asal.";
+  renderSeats();
+}
+
+/* ============================================================
+   BAHAGIAN 4 — OBJECTS, CLASS DAN CONSTRUCTOR
+   Object literal: cara ringkas mencipta object.
+   Class: blueprint untuk mencipta object dengan new.
+   Function constructor: corak constructor tradisional.
+   ============================================================ */
+function runObjectExamples() {
+  // Object literal.
+  const person = {
+    firstName: "Alice",
+    lastName: "Johnson",
+    getFullName() {
+      return `${this.firstName} ${this.lastName}`;
+    }
+  };
+
+  // Dot notation untuk nama property biasa.
+  // Bracket notation diperlukan untuk property yang ada ruang.
+  const contact = {
+    "first name": "John",
+    "last name": "Doe",
+    age: 30
+  };
+
+  // Class dan constructor.
+  class Car {
+    constructor(make, model, year) {
+      this.make = make;
+      this.model = model;
+      this.year = year;
+    }
+    startEngine() {
+      return `Enjin ${this.make} ${this.model} sedang hidup.`;
+    }
+  }
+  const myCar = new Car("Toyota", "Camry", 2022);
+
+  // Function constructor tradisional.
+  function Person(firstName, lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+  const personOne = new Person("John", "Doe");
+
+  const output = [
+    `Object literal full name: ${person.getFullName()}`,
+    `Dot notation age: ${contact.age}`,
+    `Bracket notation: ${contact["first name"]} ${contact["last name"]}`,
+    `Class instance: ${myCar.startEngine()} (${myCar.year})`,
+    `Function constructor: ${personOne.firstName} ${personOne.lastName}`
+  ].join("\n");
+
+  document.getElementById("objectOutput").textContent = output;
+  console.log("OBJECT EXAMPLES\n" + output);
+}
+
+/* ============================================================
+   BAHAGIAN 5 — ARRAY OF OBJECTS / NESTED OBJECTS
+   Setiap pekerja ialah object; semua pekerja disimpan dalam array.
+   ============================================================ */
+function runEmployeeExamples() {
+  const employees = [
+    { id: 1, name: "Alice", employeeId: "EMP001", role: "Manager", experience: 5 },
+    { id: 2, name: "Bob", employeeId: "EMP002", role: "Engineer", experience: 3 },
+    { id: 3, name: "Charlie", employeeId: "EMP003", role: "Analyst", experience: 2 }
+  ];
+
+  // Akses array of objects: index dahulu, kemudian property.
+  const firstEmployeeName = employees[0].name;
+
+  // push menambah object baharu ke dalam array.
+  employees.push({
+    id: 4, name: "David", employeeId: "EMP004", role: "Developer", experience: 4
+  });
+
+  // pop membuang object terakhir. Kita simpan nilai yang dibuang.
+  const removedEmployee = employees.pop();
+
+  // filter memilih semua pekerja yang pengalaman sekurang-kurangnya 3 tahun.
+  const experiencedEmployees = employees.filter(employee => employee.experience >= 3);
+
+  // map menghasilkan array baharu yang hanya mengandungi nama pekerja.
+  const employeeNames = employees.map(employee => employee.name);
+
+  // find mencari seorang pekerja berdasarkan nama.
+  const foundEmployee = employees.find(employee => employee.name === "Charlie");
+
+  // Nested object dan nested array: object boleh mengandungi struktur lain.
+  const profile = {
+    name: "John",
+    hobbies: ["Reading", "Traveling"],
+    address: { city: "Kuala Lumpur", postcode: "50000" },
+    projects: [
+      { title: "Project A", completed: true },
+      { title: "Project B", completed: false }
+    ]
+  };
+
+  const output = [
+    `Pekerja pertama: ${firstEmployeeName}`,
+    `Pekerja dibuang dengan pop: ${removedEmployee.name}`,
+    `Pekerja berpengalaman (>=3 tahun): ${JSON.stringify(experiencedEmployees)}`,
+    `Nama pekerja (map): ${JSON.stringify(employeeNames)}`,
+    `Cari Charlie (find): ${JSON.stringify(foundEmployee)}`,
+    `Nested property city: ${profile.address.city}`,
+    `Nested array hobby pertama: ${profile.hobbies[0]}`,
+    `Tajuk projek pertama: ${profile.projects[0].title}`
+  ].join("\n");
+
+  document.getElementById("employeeOutput").textContent = output;
+  console.log("EMPLOYEE EXAMPLES\n" + output);
+}
+
+/* ============================================================
+   BAHAGIAN 6 — STRINGS
+   String ialah teks. Kebanyakan method string memulangkan
+   string baharu; ia tidak mengubah string asal.
+   ============================================================ */
+function runStringExamples() {
+  const firstName = "Peter";
+  const greeting = "Hello, " + firstName + "!"; // Concatenation.
+  const fullName = `${firstName} Parker`;        // Template literal.
+
+  const message = "Hello, World!";
+  const longText = "   JavaScript is useful!   ";
+
+  const output = [
+    `Concatenation: ${greeting}`,
+    `Template literal: ${fullName}`,
+    `length: "${message}" mempunyai ${message.length} aksara`,
+    `character index 0: ${message[0]}`,
+    `toLowerCase: ${message.toLowerCase()}`,
+    `toUpperCase: ${message.toUpperCase()}`,
+    `indexOf("World"): ${message.indexOf("World")}`,
+    `includes("Hello"): ${message.includes("Hello")}`,
+    `substring(0, 5): ${message.substring(0, 5)}`,
+    `slice(7): ${message.slice(7)}`,
+    `replace: ${message.replace("World", "JavaScript")}`,
+    `split: ${"Alice;Bob;Charlie".split(";").join(" | ")}`,
+    `panjang sebelum trim: ${longText.length}`,
+    `trim: "${longText.trim()}"`,
+    `panjang selepas trim: ${longText.trim().length}`
+  ].join("\n");
+
+  document.getElementById("stringOutput").textContent = output;
+  console.log("STRING EXAMPLES\n" + output);
+}
+
+/* ============================================================
+   BAHAGIAN 7 — MATH
+   Nota: Math.random() menghasilkan nombor pseudo-rawak dari
+   0 (termasuk) hingga 1 (tidak termasuk).
+   ============================================================ */
+function runMathExamples() {
+  const number = 3.6;
+  const base = 2;
+  const exponent = 3;
+
+  const output = [
+    `Math.round(3.6): ${Math.round(number)}`,
+    `Math.ceil(3.6): ${Math.ceil(number)}`,
+    `Math.floor(3.6): ${Math.floor(number)}`,
+    `Math.pow(2, 3): ${Math.pow(base, exponent)}`,
+    `Math.sqrt(2): ${Math.sqrt(base)}`,
+    `Math.log(2): ${Math.log(base)}`,
+    `Math.random(): ${Math.random()}`,
+    `Nombor integer rawak 1-10: ${Math.floor(Math.random() * 10) + 1}`
+  ].join("\n");
+
+  document.getElementById("mathOutput").textContent = output;
+  console.log("MATH EXAMPLES\n" + output);
+}
+
+/* ============================================================
+   BAHAGIAN 8 — DATE
+   Peringatan: getMonth() bermula daripada 0 (Jan=0, Dec=11).
+   Untuk paparan tarikh biasa, toLocaleString lebih mudah dibaca.
+   ============================================================ */
+function runDateExamples() {
+  const now = new Date();
+  const specificDate = new Date(2026, 0, 15); // Bulan 0 = Januari.
+  const nextWeek = new Date();
+  nextWeek.setDate(nextWeek.getDate() + 7);
+
+  const output = [
+    `Tarikh dan masa sekarang: ${now.toLocaleString("ms-MY")}`,
+    `Tahun: ${now.getFullYear()}`,
+    `Bulan (0-11): ${now.getMonth()}`,
+    `Hari dalam bulan: ${now.getDate()}`,
+    `Jam: ${now.getHours()}`,
+    `Minit: ${now.getMinutes()}`,
+    `Tarikh contoh: ${specificDate.toLocaleDateString("ms-MY")}`,
+    `7 hari dari sekarang: ${nextWeek.toLocaleDateString("ms-MY")}`,
+    `Paparan masa: ${now.toLocaleTimeString("ms-MY")}`
+  ].join("\n");
+
+  document.getElementById("dateOutput").textContent = output;
+  console.log("DATE EXAMPLES\n" + output);
+}
+
+/* ============================================================
+   BAHAGIAN 9 — TIMER
+   setTimeout: sekali sahaja selepas 2,000 milisaat (2 saat).
+   setInterval: berulang setiap 1,000 milisaat (1 saat).
+   clearInterval: menghentikan setInterval.
+   ============================================================ */
+let intervalId = null;
+let intervalCount = 0;
+
+function startTimeoutDemo() {
+  const output = document.getElementById("timerOutput");
+  output.textContent = "Tunggu 2 saat...";
+  setTimeout(() => {
+    output.textContent = "setTimeout: mesej ini muncul selepas 2 saat.";
+  }, 2000);
+}
+
+function startIntervalDemo() {
+  // Elakkan interval berganda jika butang ditekan berkali-kali.
+  if (intervalId !== null) {
+    document.getElementById("timerOutput").textContent =
+      "Interval sedang berjalan. Tekan Hentikan interval dahulu.";
+    return;
+  }
+
+  intervalCount = 0;
+  document.getElementById("timerOutput").textContent = "Interval bermula...";
+  intervalId = setInterval(() => {
+    intervalCount++;
+    document.getElementById("timerOutput").textContent =
+      `setInterval berjalan: ${intervalCount} saat.`;
+
+    // Hentikan secara automatik selepas 10 kali.
+    if (intervalCount >= 10) stopIntervalDemo();
+  }, 1000);
+}
+
+function stopIntervalDemo() {
+  if (intervalId !== null) {
+    clearInterval(intervalId);
+    intervalId = null;
+    document.getElementById("timerOutput").textContent =
+      `Interval dihentikan pada kiraan ${intervalCount}.`;
+  }
+}
+
+/* ============================================================
+   BAHAGIAN 10 — RANDOM QUOTE GENERATOR
+   Gabungan array + nombor rawak + DOM.
+   ============================================================ */
+const quotes = [
+  "Great things are done by a series of small things brought together. — Vincent van Gogh",
+  "The secret of getting ahead is getting started. — Mark Twain",
+  "It always seems impossible until it's done. — Nelson Mandela",
+  "Well done is better than well said. — Benjamin Franklin",
+  "Learning never exhausts the mind. — Leonardo da Vinci"
+];
+
+function generateRandomQuote() {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const randomQuote = quotes[randomIndex];
+
+  // textContent memasukkan teks dengan selamat sebagai kandungan teks.
+  document.getElementById("quoteDisplay").textContent = randomQuote;
+}
+
+// Paparkan carta kerusi sebaik sahaja halaman selesai dimuatkan.
+renderSeats();
+console.log("JavaScript Learning Lab sedia. Cuba tekan butang pada setiap bahagian.");
+</script>
+</body>
+</html>
